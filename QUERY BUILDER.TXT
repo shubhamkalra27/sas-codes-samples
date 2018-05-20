@@ -1,0 +1,31 @@
+%_eg_conditional_dropds(WORK.QUERY_FOR_CARS);
+
+PROC SQL;
+   CREATE TABLE WORK.QUERY_FOR_CARS AS 
+   SELECT t1.Make, 
+          t1.Invoice, 
+          t1.MSRP
+      FROM SASHELP.CARS t1
+      WHERE t1.Invoice > 20000
+      ORDER BY t1.MSRP DESC;
+QUIT;
+
+
+-- QUERY BUILDER II
+
+%_eg_conditional_dropds(WORK.QUERY_FOR_CARS_0000);
+
+PROC SQL;
+   CREATE TABLE WORK.QUERY_FOR_CARS_0000 AS 
+   SELECT t1.Type, 
+          t1.Make, 
+          t1.DriveTrain, 
+          t1.Model, 
+          /* AVG_of_Invoice */
+            (AVG(t1.Invoice)) FORMAT=DOLLAR8. AS AVG_of_Invoice, 
+          t1.Invoice
+      FROM SASHELP.CARS t1
+      GROUP BY t1.Type
+      HAVING (CALCULATED AVG_of_Invoice) < t1.Invoice
+      ORDER BY AVG_of_Invoice DESC;
+QUIT;

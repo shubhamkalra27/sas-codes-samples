@@ -1,0 +1,31 @@
+Filter & Sort 
+
+%_eg_conditional_dropds(WORK.FILTER_FOR_CARS);
+
+PROC SQL;
+   CREATE TABLE WORK.FILTER_FOR_CARS AS 
+   SELECT t1.Make, 
+          t1.Model, 
+          t1.Type, 
+          t1.Origin, 
+          t1.DriveTrain, 
+          t1.MSRP, 
+          t1.Invoice, 
+          t1.EngineSize, 
+          t1.Cylinders, 
+          t1.Horsepower, 
+          t1.MPG_City, 
+          t1.MPG_Highway, 
+          t1.Weight, 
+          t1.Wheelbase, 
+          t1.Length
+      FROM SASHELP.CARS t1
+      WHERE t1.Type = 'SUV' AND t1.Origin IN 
+           (
+           'Asia',
+           'USA'
+           )
+      ORDER BY t1.MSRP DESC;
+QUIT;
+
+
